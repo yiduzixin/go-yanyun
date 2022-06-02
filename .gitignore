@@ -1,0 +1,8 @@
+/.idea/
+.idea/
+.idea
+/pkg
+*.exe
+/go.sum
+/go.mod
+/tmp/

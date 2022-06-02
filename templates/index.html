@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+    <link rel="stylesheet"
+          href="/static/css/basic.css"/>
+    <link rel="stylesheet"
+          href="/static/css/dropzone.css"/>
+
+    <script type="application/javascript"
+            src="/static/js/dropzone.js">
+    </script>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<h1>Upload <span class="j-type">image</span> File</h1>
+<form action="" method=post enctype=multipart/form-data>
+    <select name="upload_type" class="j-select">
+        <option value="image" selected="selected">图片</option>
+        <option value="video" >视频</option>
+        <option value="file">附件</option>
+    </select>
+
+    <p>access_key<input type="text" name="access_key"></p>
+    <p>secret_key<input type="text" name="secret_key"></p>
+    <p style="display: none;"><input type="text" name="logo_uuid" value={{.logo_uuid}} readonly></p>
+    <p style="display: none;"><input type="text" name="master_uuid" value={{.master_uuid}} readonly></p>
+
+    <p><input type="submit" value="Upload"></p>
+</form>
+
+<form method="POST" action='/getfile' class="dropzone dz-clickable j-logoshow"
+      id="logoupload" enctype="multipart/form-data">
+    <p style="display: none;"><input type="text" name="_uuid" value={{.logo_uuid}} readonly></p>
+</form>
+
+<form method="POST" action='/getfile' class="dropzone dz-clickable j-mastershow"
+      id="fileupload" enctype="multipart/form-data">
+    <p style="display: none;"><input type="text" name="_uuid" value={{.master_uuid}} readonly></p>
+</form>
+
+<script type="application/javascript">
+    $('.j-select').change(function(){
+        let _type = $(this).val();
+        $('.j-type').text(_type);
+        if(_type === 'file'){
+            $('.j-logoshow').hide();
+        }else{
+            $('.j-logoshow').show();
+        }
+    });
+
+    Dropzone.options.logoupload = {
+        paramName: 'file',
+        chunking: true,
+        forceChunking: true,
+        url: '/getfile',
+        dictDefaultMessage: "水印上传",
+        maxFilesize: 4096, // megabytes
+        chunkSize: 1048576 // bytes
+    }
+    Dropzone.options.fileupload = {
+        paramName: 'file',
+        chunking: true,
+        forceChunking: true,
+        url: '/getfile',
+        dictDefaultMessage: "原文件上传",
+        maxFilesize: 4096, // megabytes
+        chunkSize: 1048576 // bytes
+    }
+</script>
+</body>
+</html>
